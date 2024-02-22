@@ -1,0 +1,20 @@
+pipeline {
+   agent { docker { image 'node:20.9.0-alpine'} }
+
+    stages {
+        stage('Build Angular App') {
+            steps {
+                script {
+                    sh 'npm install' // Install dependencies
+                    sh 'ng build --prod' // Build for production with optimization
+                }
+            }
+        }
+        stage('Post-Build') {
+          steps {
+            archiveArtifacts 'dist/app'
+          }
+        }
+    }
+  
+}
